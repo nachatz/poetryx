@@ -1,0 +1,38 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+# Update according to your use-case
+[tool.poetry]
+name = "project_template"
+version = "2.0.0"
+description = "Template for Python applications"
+authors = ["Nikolas Achatz <nik@example.com>"]
+packages = [{ include = "project_template", from = "src" }]
+
+[tool.black]
+target-version = ["py310"]
+line-length = 120
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+follow_imports = "skip"
+
+# Add dependencies for production codebase
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^2.3"
+requests = "^2.31.0"
+setuptools = "^58.0.0" 
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+coverage = "*"
+mypy = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+prospector = "*"
+types-requests = "*" 
+

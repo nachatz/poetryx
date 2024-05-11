@@ -1,0 +1,15 @@
+strictness: high
+test-warnings: True
+
+max-line-length: 120
+
+ignore-paths:
+  - .mypy_cache
+
+pylint:
+  disable:
+    - cyclic-import
+    - missing-module-docstring
+
+pycodestyle:
+  disable: E203,E203
