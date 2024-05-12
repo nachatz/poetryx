@@ -2,6 +2,9 @@ install:
 	@poetry install --all-extras --with dev
 	poetry lock
 
+build:
+	@poetry build
+
 run:
 	poetry run python examples/main.py
 

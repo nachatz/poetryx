@@ -1,3 +1,3 @@
-from tests.utils.project_template_test_base import ProjectTemplateTestBase
+from tests.utils.base_test import BaseTest
 
-__all__ = ["ProjectTemplateTestBase"]
+__all__ = ["BaseTest"]
