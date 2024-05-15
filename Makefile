@@ -1,19 +1,18 @@
 install:
 	@poetry install --all-extras --with dev
-	poetry shell
 	poetry lock
 
 build:
 	@poetry build
 
 fmt:
-	black src tests
+	@poetry run black src tests
 
 mypy:
-	mypy src tests
+	@poetry run mypy src tests
 
 check: fmt mypy
-	pylint  --fail-under=10 src/poetryx 
+	@poetry run pylint --fail-under=10 src/poetryx 
 
 validate: check
 	coverage run --source=src -m pytest && \
