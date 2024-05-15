@@ -1,7 +1,6 @@
 install:
 	@poetry install --all-extras --with dev
 	poetry lock
-	poetry run mypy --install-types
 
 build:
 	@poetry build
