@@ -5,8 +5,7 @@ on:
     types: [created]
 
 jobs:
-  build:
-    name: Build dist
+  deploy-to-pypi:
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
 
@@ -30,24 +29,12 @@ jobs:
         run: |
           export PATH=$PATH:$HOME/.local/bin
           make install
-          make build
+          make check
 
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-package-distributions
-          path: dist/
-
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-
-  publish-to-pypi:
-    name: Publish Python 🐍 distribution 📦 to PyPI
-    if: github.event_name == 'release'
-    needs: [build]
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/poetryx
-    permissions:
-      id-token: write
+      - name: Build and deploy to PyPI
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          export PATH=$PATH:$HOME/.local/bin
+          make deploy

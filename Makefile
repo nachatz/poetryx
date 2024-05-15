@@ -17,3 +17,6 @@ check: fmt mypy
 validate: check
 	coverage run --source=src -m pytest && \
 	coverage report -m 
+
+deploy: build
+	@poetry run twine upload dist/*
