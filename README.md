@@ -10,7 +10,7 @@ Augmenting the flow of functionality for Poetry projects, setup, and debugging. 
 
 <div align="center">
 
-[![v0.0.2](https://img.shields.io/badge/version-v0.0.2-blue.svg)](https://github.com/nachatz/poetryx)
+[![v0.0.1](https://img.shields.io/badge/version-v0.0.2-blue.svg)](https://github.com/nachatz/poetryx)
 [![Test](https://github.com/nachatz/poetryx/actions/workflows/validate.yaml/badge.svg)](https://github.com/nachatz/poetryx/actions/workflows/validate.yaml)
 [![License](https://img.shields.io/badge/license-Apache%202-brightgreen.svg)](https://github.com/nachatz/poetryx/blob/master/LICENSE.txt)
 
