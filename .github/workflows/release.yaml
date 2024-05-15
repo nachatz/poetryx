@@ -5,9 +5,17 @@ on:
     types: [created]
 
 jobs:
-  deploy-to-pypi:
+  pypi-publish:
+    name: Upload release to PyPI
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/poetryx
+
+    permissions:
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -30,11 +38,7 @@ jobs:
           export PATH=$PATH:$HOME/.local/bin
           make install
           make check
+          
 
-      - name: Build and deploy to PyPI
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          export PATH=$PATH:$HOME/.local/bin
-          make deploy
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
