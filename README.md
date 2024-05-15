@@ -1,4 +1,4 @@
-# Poetryx
+# Poetry Extended (Poetryx)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/nachatz/poetryx/master/docs/img/poetryx.jpg" width="400" height="400" style="border-radius: 50%;">
