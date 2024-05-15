@@ -1,9 +1,8 @@
 # Poetry Extended (Poetryx)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nachatz/poetryx/master/docs/img/poetryx.jpg" width="400" height="400" style="border-radius: 50%;">
+  <img src="https://raw.githubusercontent.com/nachatz/poetryx/master/docs/img/poetryx.jpg">
 </p>
-
 
 <p align="center">
 Augmenting the flow of functionality for Poetry projects, setup, and debugging. Enabling streamlined user experience within specific IDEs, scaffolding projects, and generic utilities.
