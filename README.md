@@ -1,8 +1,7 @@
 # Poetry Extended (Poetryx)
 
-<link rel="stylesheet" type="text/css" href="docs/styles/readme.css">
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nachatz/poetryx/master/docs/img/poetryx.jpg" width="400" height="400" class="rounded-img">
+  <img src="https://raw.githubusercontent.com/nachatz/poetryx/master/docs/img/poetryx.jpg">
 </p>
 
 <p align="center">
