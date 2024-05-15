@@ -1,0 +1,8 @@
+[tool.pylint.MESSAGES CONTROL]
+disable = cyclic-import, missing-module-docstring, missing-function-docstring, too-few-public-methods
+
+[tool.pylint.FORMAT]
+max-line-length = 120
+
+[tool.pylint.MASTER]
+ignore = .mypy_cache, src/__init__.py, __pycache__, .pytest_cache, .tox

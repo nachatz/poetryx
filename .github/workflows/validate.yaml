@@ -31,4 +31,4 @@ jobs:
     - name: Run tests and validation
       run: |
         export PATH=$PATH:$HOME/.local/bin
-        make validate
+        make check
