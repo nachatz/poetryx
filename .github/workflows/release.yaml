@@ -41,15 +41,13 @@ jobs:
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
 
- publish-to-pypi:
-    name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
+  publish-to-pypi:
+    name: Publish Python 🐍 distribution 📦 to PyPI
     if: github.event_name == 'release'
-    needs:
-    - build
+    needs: [build]
     runs-on: ubuntu-latest
     environment:
       name: pypi
       url: https://pypi.org/p/poetryx
     permissions:
-      id-token: write  
+      id-token: write
