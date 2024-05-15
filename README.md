@@ -6,7 +6,7 @@
 
 
 <p align="center">
-Extending the native functionality of Poetry, enabling streamlined user experience within specific IDEs, scaffolding projects, and generic utilities.
+Augmenting the flow of functionality for Poetry projects, setup, and debugging. Enabling streamlined user experience within specific IDEs, scaffolding projects, and generic utilities.
 </p>
 
 <div align="center">
@@ -22,38 +22,22 @@ Extending the native functionality of Poetry, enabling streamlined user experien
 &nbsp; 
 ## Getting started
 
-This CLI is built on-top of Poetry, so likely you have already downloaded Poetry. If not, you can set it up natively through Poetryx:
+This CLI is built on-top of Poetry, so likely you have already downloaded Poetry. If not, you can install [here](https://python-poetry.org/docs/):
 
 1. Install Poetryx
 
 ```shell 
 pip install poetryx
 ```
-2. Setup Poetryx 
+2. Configure Poetryx for your IDE
 
 ```shell
-poetryx setup
-```
-
-3. Run native Poetry commands
-
-```shell
-poetryx install
-```
-
-4. Take advantage of Poetryx utilities (example configures VScode for the poetry env)
-
-```shell
-poetryx code configure
+poetryx configure
 ```
 
 &nbsp; 
 ## Provided utilities 
 
-### Native poetry commands - `poetryx {any poetry command}`
-
-Run any poetry command directly through `poetryx`
-
-### VSCode configuration - `poetryx code configure`
+### IDE configuration (**currently only VSCode**) - `poetryx configure`
 
 Configure VScode to use the current poetry environments for debugging and interpreting. Enabling immediate debugging through the `Testing` extension
