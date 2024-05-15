@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poetryx"
-version = "0.0.1"
+version = "0.0.2"
 description = "CLI wrapper built on-top of Poetry enabling common utilities and application scaffolding for enhanced productivity."
 license = "Apache License 2.0"
 repository = "https://github.com/nachatz/poetryx"
