@@ -10,7 +10,7 @@ jobs:
     if: github.event_name == 'release'
 
     environment:
-      name: poetryx
+      name: PyPl
 
     steps:
       - name: Checkout code
