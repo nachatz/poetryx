@@ -1,5 +1,6 @@
 install:
 	@poetry install --all-extras --with dev
+	poetry shell
 	poetry lock
 
 build:
@@ -17,3 +18,6 @@ check: fmt mypy
 validate: check
 	coverage run --source=src -m pytest && \
 	coverage report -m 
+
+deploy: build
+	twine upload dist/*
