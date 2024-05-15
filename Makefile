@@ -1,6 +1,7 @@
 install:
 	@poetry install --all-extras --with dev
 	poetry lock
+	poetry run mypy --install-types
 
 build:
 	@poetry build
@@ -19,4 +20,4 @@ validate: check
 	coverage report -m 
 
 deploy: build
-	twine upload dist/*
+	@poetry run twine upload dist/*
