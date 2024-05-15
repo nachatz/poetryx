@@ -5,18 +5,15 @@ install:
 build:
 	@poetry build
 
-run:
-	poetry run python examples/main.py
-
 fmt:
-	@poetry run black src tests
+	black src tests
 
 mypy:
-	@poetry run mypy src tests
+	mypy src tests
 
 check: fmt mypy
-	@poetry run prospector --profile prospector.yaml
+	pylint  --fail-under=10 src/poetryx 
 
 validate: check
-	@poetry run coverage run --source=src -m pytest && \
-	poetry run coverage report -m 
+	coverage run --source=src -m pytest && \
+	coverage report -m 
