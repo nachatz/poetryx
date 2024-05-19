@@ -15,20 +15,47 @@
 
 from typing import Dict, Any
 import os
-from toml import load, dump
+from toml import load as toml_load, dump as toml_dump, TomlDecodeError
+from json import load as json_load, dump as json_dump, JSONDecodeError
 
 
-def read_file(path: str, toml: bool = False) -> str | Dict[str, Any]:
+from typing import Any, Dict, Union
+
+
+def read_file(
+    path: str, toml: bool = False, json: bool = False
+) -> Union[str, Dict[str, Any]]:
+    if toml and json:
+        raise ValueError("Only one of 'toml' or 'json' can be True, not both.")
+
     with open(path, "r", encoding="utf-8") as file:
         if toml:
-            return load(file)
-        return file.read()
+            try:
+                return toml_load(file)
+            except TomlDecodeError as e:
+                raise TomlDecodeError(
+                    f"Invalid toml present in '{path}': {e}", e.doc, e.pos
+                )
+        elif json:
+            try:
+                return json_load(file)
+            except JSONDecodeError as e:
+                raise JSONDecodeError(
+                    f"Invalid json present in '{path}': {e}", e.doc, e.pos
+                )
 
 
-def write_file(path: str, content: str | Dict[str, Any], toml: bool = False) -> None:
+def write_file(
+    path: str, content: str | Dict[str, Any], toml: bool = False, json: bool = False
+) -> None:
+    if toml and json:
+        raise ValueError("Only one of 'toml' or 'json' can be True, not both.")
+
     with open(path, "w", encoding="utf-8") as file:
         if toml and isinstance(content, dict):
-            dump(content, file)
+            toml_dump(content, file)
+        elif json and isinstance(content, dict):
+            json_dump(content, file, indent=4)
         elif not toml and isinstance(content, str):
             file.write(content)
         else:

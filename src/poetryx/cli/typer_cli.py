@@ -18,7 +18,9 @@ import typer
 import click
 from poetryx.file import FileConfig
 from poetryx.file.file_manager import read_file, write_file
-
+from poetryx.poetry.poetry_manager import PoetryManager
+from poetryx.ide.vscode_settings_manager import VscodeSettingsManager
+from poetryx.ide.settings_manager import SettingsManager
 
 class TyperCLI:
     """Custom Typer CLI for configuring poetryx.
@@ -28,13 +30,23 @@ class TyperCLI:
     Attributes:
         cli (typer.Typer): The Typer CLI instance.
         config (FileConfig): The FileConfig instance for managing configuration.
+        poetry (PoetryManager): The PoetryManager instance for managing poetry.
     """
+
+    supported_ide: List[str] = ["vscode", "n/a"]
+    settings = {
+        "vscode": VscodeSettingsManager,
+        "n/a": None
+    }
 
     def __init__(self) -> None:
         self.cli = typer.Typer()
         self.config = FileConfig()
+        self.poetry = PoetryManager()
+        settings_obj: SettingsManager = TyperCLI.settings[self.config.ide]
+        self.settings_obj: SettingsManager = settings_obj(self.poetry) if settings_obj else None
 
-    def configure(self) -> None:
+    def setup(self) -> None:
         toml = read_file(FileConfig.config_path, toml=True)
         if not isinstance(toml, dict):
             raise ValueError(f"Invalid configuration file: {FileConfig.config_path}")
@@ -63,6 +75,6 @@ class TyperCLI:
 
             config[option] = resp
 
-        prompt("ide", ["vscode", "n/a"])
+        prompt("ide", TyperCLI.supported_ide)
         result: Dict[str, Dict[str, Dict[str, str]]] = {"poetryx": {"config": config}}
         write_file(FileConfig.config_path, result, toml=True)

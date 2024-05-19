@@ -28,25 +28,31 @@ This CLI is built on-top of Poetry, so likely you have already downloaded Poetry
 ```shell 
 pip install poetryx
 ```
-### 2. Configure Poetryx for your IDE
+### 2. Setup Poetryx for your IDE
 
 ```shell
-poetryx configure
+poetryx setup
 ```
 
 &nbsp; 
 ## Provided utilities 
 
-### 1. IDE configuration (**currently only VSCode**)
-Configure poetryx to target specific requirements for your poetry environments including the IDE you're using.
+### 1. IDE setup (**currently only VSCode**)
+Setup poetryx to target specific requirements for your poetry environments including the IDE you're using.
 ```shell
-poetryx configure
+poetryx setup
 ```
 
 ### 2. Factory reset
 Reset poetryx to the default settings
 ```shell
 poetryx clean
+```
+
+### 3. IDE Environment configuration
+Sets the poetry environment as your IDE's default runner. For VScode, this will ensure your debugger, interpreter, and Testing extension is setup correctly. A IDE re-launch may be required.
+```shell
+poetryx configure
 ```
 
 &nbsp;

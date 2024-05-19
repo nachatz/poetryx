@@ -14,16 +14,18 @@
 """Commands interface that provide the entry point for poetryx."""
 
 import typer
+from json import JSONDecodeError
 from .typer_cli import TyperCLI
+
 
 app = TyperCLI()
 cli = app.cli
 
 
 @cli.command()
-def configure() -> None:
-    """Configure poetryx configuration file"""
-    app.configure()
+def setup() -> None:
+    """Setup poetryx configuration file"""
+    app.setup()
 
 
 @cli.command()
@@ -40,3 +42,27 @@ def clean() -> None:
         typer.echo("Successfully reset poetryx")
     else:
         typer.echo("Cancelled reset")
+
+
+@cli.command()
+def configure() -> None:
+    """Setup IDE environment to use the current poetry environment"""
+
+    if "vscode" not in app.config.ide:
+        typer.echo("Only vscode supported at the moment")
+        return
+
+    typer.echo("Setting your IDE environment to use the current poetry environment")
+    if typer.confirm(
+        "🚨 Are you at the root of your project (where you want a .vscode)?"
+    ):
+        try:
+            path = app.poetry.get_virtualenv_path()
+            app.settings_obj.set_poetry_debugger(path)
+            typer.echo(f"VScode debugger setup for: {path}")
+        except JSONDecodeError:
+            typer.echo(
+                "Invalid JSON present in current .vscode directory (check settings/launch.json)"
+            )
+        except Exception as e:
+            typer.echo(f"Failed to set VScode debugger: {e}")

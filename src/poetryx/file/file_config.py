@@ -43,12 +43,21 @@ class FileConfig:
     def __init__(self) -> None:
         self._validate_configuration()
 
-    def _validate_configuration(self) -> None:
-        if not os.path.exists(self.config_path):
-            write_file(self.config_path, read_file(self.config_toml_path))
+    @property
+    def ide(self) -> str:
+        config = read_file(self.config_path, toml=True)
+        config = config["poetryx"]["config"]["ide"]
+
+        if config: return config
+        return "n/a"
+    
 
     def clean_configuration(self) -> None:
         delete_file(self.config_path)
 
     def set_configuration(self, config: Dict) -> None:
         write_file(self.config_path, config, toml=True)
+    
+    def _validate_configuration(self) -> None:
+        if not os.path.exists(self.config_path):
+            write_file(self.config_path, read_file(self.config_toml_path))
