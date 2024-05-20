@@ -13,40 +13,45 @@
 # limitations under the License.
 """Utilities for reading and writing files."""
 
-from typing import Dict, Any
 import os
-from toml import load as toml_load, dump as toml_dump, TomlDecodeError
+from typing import Dict, Any
+from pathlib import Path
 from json import load as json_load, dump as json_dump, JSONDecodeError
+from toml import load as toml_load, dump as toml_dump, TomlDecodeError
 
-
-from typing import Any, Dict, Union
-
-
-def read_file(
-    path: str, toml: bool = False, json: bool = False
-) -> Union[str, Dict[str, Any]]:
+def read_file_dict(
+    path: Path, toml: bool = False, json: bool = False
+) -> Dict[str, Any]:
     if toml and json:
         raise ValueError("Only one of 'toml' or 'json' can be True, not both.")
 
-    with open(path, "r", encoding="utf-8") as file:
-        if toml:
-            try:
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            if toml:
                 return toml_load(file)
-            except TomlDecodeError as e:
-                raise TomlDecodeError(
-                    f"Invalid toml present in '{path}': {e}", e.doc, e.pos
+            if json:
+                return dict(json_load(file))
+            raise ValueError(
+                    "Either 'toml' or 'json' must be True to return a dictionary."
                 )
-        elif json:
-            try:
-                return json_load(file)
-            except JSONDecodeError as e:
-                raise JSONDecodeError(
-                    f"Invalid json present in '{path}': {e}", e.doc, e.pos
-                )
+    except TomlDecodeError as e:
+        raise TomlDecodeError(f"Invalid toml present in '{path}': {e}", e.doc, e.pos) from e
+    except JSONDecodeError as e:
+        raise JSONDecodeError(f"Invalid json present in '{path}': {e}", e.doc, e.pos) from e
+    except Exception as e:
+        raise Exception(f"Failed to read '{path}': {e}") from e
+
+
+def read_file_raw(path: str) -> str:
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            return file.read()
+    except Exception as e:
+        raise Exception(f"Failed to read '{path}': {e}") from e
 
 
 def write_file(
-    path: str, content: str | Dict[str, Any], toml: bool = False, json: bool = False
+    path: Path, content: str | Dict[str, Any], toml: bool = False, json: bool = False
 ) -> None:
     if toml and json:
         raise ValueError("Only one of 'toml' or 'json' can be True, not both.")
@@ -64,5 +69,5 @@ def write_file(
             )
 
 
-def delete_file(path: str) -> None:
+def delete_file(path: Path) -> None:
     os.remove(path)

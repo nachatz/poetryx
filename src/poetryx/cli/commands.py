@@ -13,8 +13,9 @@
 # limitations under the License.
 """Commands interface that provide the entry point for poetryx."""
 
-import typer
 from json import JSONDecodeError
+
+import typer
 from .typer_cli import TyperCLI
 
 
@@ -48,7 +49,7 @@ def clean() -> None:
 def configure() -> None:
     """Setup IDE environment to use the current poetry environment"""
 
-    if "vscode" not in app.config.ide:
+    if not app.settings_obj:
         typer.echo("Only vscode supported at the moment")
         return
 

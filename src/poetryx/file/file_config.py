@@ -17,7 +17,7 @@ import os
 from pathlib import Path
 from typing import Dict
 
-from .file_manager import write_file, delete_file, read_file
+from .file_manager import write_file, delete_file, read_file_dict
 
 
 class FileConfig:
@@ -35,8 +35,8 @@ class FileConfig:
 
     config_file: str = ".poetryx"
     config_template_toml: str = "config.toml"
-    config_path: str = str(Path.home().joinpath(config_file))
-    config_toml_path: str = str(
+    config_path: Path = Path.home().joinpath(config_file)
+    config_toml_path: Path = (
         Path(__file__).resolve().parent.joinpath(config_template_toml)
     )
 
@@ -45,19 +45,19 @@ class FileConfig:
 
     @property
     def ide(self) -> str:
-        config = read_file(self.config_path, toml=True)
+        config = read_file_dict(self.config_path, toml=True)
         config = config["poetryx"]["config"]["ide"]
 
-        if config: return config
+        if config and isinstance(config, str):
+            return config
         return "n/a"
-    
 
     def clean_configuration(self) -> None:
         delete_file(self.config_path)
 
     def set_configuration(self, config: Dict) -> None:
         write_file(self.config_path, config, toml=True)
-    
+
     def _validate_configuration(self) -> None:
         if not os.path.exists(self.config_path):
-            write_file(self.config_path, read_file(self.config_toml_path))
+            write_file(self.config_path, read_file_dict(self.config_toml_path))

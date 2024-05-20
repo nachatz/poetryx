@@ -1,31 +1,43 @@
+# Copyright 2024 Nikolas Achatz (github.com/nachatz)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Settings manager for VSCode."""
+
 import os
 from pathlib import Path
-from .settings_manager import SettingsManager
-from poetryx.file.file_manager import write_file, read_file
 from typing import List, Dict, Any
+from poetryx.file.file_manager import write_file, read_file_dict
+from .settings_manager import SettingsManager
 
 
 class VscodeSettingsManager(SettingsManager):
+    """Manages VScode IDE settings for poetry environments.
 
-    @property
-    def vscode_settings_dir(self) -> str:
-        return "./.vscode"
+    See https://code.visualstudio.com/docs/getstarted/settings
+    for more information.
+    """
 
-    @property
-    def launch_file_path(self) -> str:
-        return Path(self.vscode_settings_dir, "launch.json").as_posix()
-
-    @property
-    def setting_file_path(self) -> str:
-        return Path(self.vscode_settings_dir, "setting.json").as_posix()
+    vscode_settings_dir: str = "./.vscode"
+    setting_file_path: Path = Path(vscode_settings_dir, "setting.json")
+    launch_file_path: Path = Path(vscode_settings_dir, "launch.json")
 
     @property
     def launch_file(self) -> Dict[str, Any]:
-        return read_file(self.launch_file_path, json=True)
+        return read_file_dict(self.launch_file_path, json=True)
 
     @property
-    def setting_file(self) -> str:
-        return read_file(self.setting_file_path, json=True)
+    def setting_file(self) -> Dict[str, Any]:
+        return read_file_dict(self.setting_file_path, json=True)
 
     def set_poetry_debugger(self, path: str) -> None:
         if os.path.exists(self.vscode_settings_dir) and os.path.exists(

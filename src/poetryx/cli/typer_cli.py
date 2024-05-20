@@ -13,14 +13,14 @@
 # limitations under the License.
 """Class for overloading typer CLI functionality"""
 
-from typing import List, Dict
+from typing import List, Dict, Type
 import typer
 import click
 from poetryx.file import FileConfig
-from poetryx.file.file_manager import read_file, write_file
+from poetryx.file.file_manager import read_file_dict, write_file
 from poetryx.poetry.poetry_manager import PoetryManager
 from poetryx.ide.vscode_settings_manager import VscodeSettingsManager
-from poetryx.ide.settings_manager import SettingsManager
+
 
 class TyperCLI:
     """Custom Typer CLI for configuring poetryx.
@@ -34,20 +34,22 @@ class TyperCLI:
     """
 
     supported_ide: List[str] = ["vscode", "n/a"]
-    settings = {
-        "vscode": VscodeSettingsManager,
-        "n/a": None
-    }
+    settings = {"vscode": VscodeSettingsManager}
 
     def __init__(self) -> None:
         self.cli = typer.Typer()
         self.config = FileConfig()
         self.poetry = PoetryManager()
-        settings_obj: SettingsManager = TyperCLI.settings[self.config.ide]
-        self.settings_obj: SettingsManager = settings_obj(self.poetry) if settings_obj else None
+        settings_class: Type[VscodeSettingsManager] | None = TyperCLI.settings.get(
+            self.config.ide, None
+        )
+        self.settings_obj: VscodeSettingsManager | None = (
+            settings_class() if settings_class else None
+        )
 
     def setup(self) -> None:
-        toml = read_file(FileConfig.config_path, toml=True)
+        """Sets up the typer CLI and adds poetryx configuration."""
+        toml = read_file_dict(FileConfig.config_path, toml=True)
         if not isinstance(toml, dict):
             raise ValueError(f"Invalid configuration file: {FileConfig.config_path}")
 
