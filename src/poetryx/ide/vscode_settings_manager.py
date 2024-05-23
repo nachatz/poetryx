@@ -40,6 +40,14 @@ class VscodeSettingsManager(SettingsManager):
         return read_file_dict(self.setting_file_path, json=True)
 
     def set_poetry_debugger(self, path: str) -> None:
+        """Sets the poetry debugger in vscode to the given poetry path.
+
+        It will create the .vscode directory if it doesn't exist and update the launch.json file
+        if it exists.
+
+        Args:
+            path (str): The path to the poetry executable.
+        """
         if os.path.exists(self.vscode_settings_dir) and os.path.exists(
             self.launch_file_path
         ):
@@ -53,6 +61,15 @@ class VscodeSettingsManager(SettingsManager):
     def _update_vscode_launch(
         self, vscode_launch: Dict[str, Any], path: str
     ) -> Dict[str, Any]:
+        """Parse the launch file and determine what values need to be updated.
+
+        Args:
+            vscode_launch (Dict[str, Any]): The contents of the launch file.
+            path (str): The path to the poetry executable.
+
+        Returns:
+            Dict[str, Any]: The updated launch file.
+        """
         launch_settings: Dict[str, Any] = self._default_launch_settings(path)
         vscode_launch["version"] = vscode_launch.get(
             "version", launch_settings.get("version", "0.2.0")
