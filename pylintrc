@@ -1,5 +1,5 @@
 [tool.pylint.MESSAGES CONTROL]
-disable = cyclic-import, missing-module-docstring, missing-function-docstring, too-few-public-methods
+disable = cyclic-import, missing-module-docstring, missing-function-docstring, too-few-public-methods, broad-exception-caught, broad-exception-raised
 
 [tool.pylint.FORMAT]
 max-line-length = 120
