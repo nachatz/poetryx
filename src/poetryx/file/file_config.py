@@ -33,7 +33,7 @@ class FileConfig:
         config_toml_path (str): The path to the template configuration file.
     """
 
-    config_file: str = ".poetryx"
+    config_file: str = ".poetryx2"
     config_template_toml: str = "config.toml"
     config_path: Path = Path.home().joinpath(config_file)
     config_toml_path: Path = (
